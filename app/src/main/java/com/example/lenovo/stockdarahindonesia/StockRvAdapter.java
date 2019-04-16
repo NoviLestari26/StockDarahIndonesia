@@ -11,10 +11,10 @@ import android.widget.TextView;
 import java.util.List;
 
 public class StockRvAdapter extends RecyclerView.Adapter<StockRvAdapter.StockRvHolder> {
-    private List<LokasiStok> datanyaa;
+    private List<DataDarah> datanyaa;
     private Activity activity;
 
-    public StockRvAdapter(List<LokasiStok> datanyaa, Activity activity) {
+    public StockRvAdapter(List<DataDarah> datanyaa, Activity activity) {
         this.datanyaa = datanyaa;
         this.activity = activity;
     }
@@ -29,7 +29,7 @@ public class StockRvAdapter extends RecyclerView.Adapter<StockRvAdapter.StockRvH
     @Override
     public void onBindViewHolder(@NonNull StockRvAdapter.StockRvHolder stockRvHolder, int position) {
         stockRvHolder.unit.setText(datanyaa.get(position).getUnit().toString());
-        stockRvHolder.jumlah.setText(datanyaa.get(position).getJumlah().toString());
+        stockRvHolder.jumlah.setText(datanyaa.get(position).getStok().toString());
 
     }
 

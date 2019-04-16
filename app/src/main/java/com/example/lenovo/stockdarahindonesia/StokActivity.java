@@ -23,6 +23,7 @@ public class StokActivity extends AppCompatActivity {
     RecyclerView.LayoutManager layoutManager;
     RecyclerView recyclerView;
     StockRvAdapter stockRvAdapter;
+    List<DataDarah> dataDarahs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,27 +34,29 @@ public class StokActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
         Intent intent=getIntent();
-        dataDarahLengkap=(DataDarahLengkap)intent.getSerializableExtra("darahnya");
-        String gol = dataDarahLengkap.getGolnya().toString().trim();
-        String produk = dataDarahLengkap.getProduknya().toString().trim();
-        String provinsi = dataDarahLengkap.getProvinsinya().toString().trim();
-        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<DataStok> dataStokCall=apiInterface.getStokDarah(gol,produk,provinsi);
-        dataStokCall.enqueue(new Callback<DataStok>() {
-            @Override
-            public void onResponse(Call<DataStok> call, Response<DataStok> response) {
-                dataStok = response.body();
-                data=dataStok.getData();
-                int jml=data.size();
-                stockRvAdapter = new StockRvAdapter(data,StokActivity.this);
-                recyclerView.setAdapter(stockRvAdapter);
-            }
-
-            @Override
-            public void onFailure(Call<DataStok> call, Throwable t) {
-
-            }
-        });
+        dataDarahs= (List<DataDarah>) intent.getSerializableExtra("datanya");
+        stockRvAdapter = new StockRvAdapter(dataDarahs,StokActivity.this);
+        recyclerView.setAdapter(stockRvAdapter);
+//        String gol = dataDarahLengkap.getGolnya().toString().trim();
+//        String produk = dataDarahLengkap.getProduknya().toString().trim();
+//        String provinsi = dataDarahLengkap.getProvinsinya().toString().trim();
+//        apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
+//        Call<DataStok> dataStokCall=apiInterface.getStokDarah(gol,produk,provinsi);
+//        dataStokCall.enqueue(new Callback<DataStok>() {
+//            @Override
+//            public void onResponse(Call<DataStok> call, Response<DataStok> response) {
+//                dataStok = response.body();
+//                data=dataStok.getData();
+//                int jml=data.size();
+//                stockRvAdapter = new StockRvAdapter(data,StokActivity.this);
+//                recyclerView.setAdapter(stockRvAdapter);
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DataStok> call, Throwable t) {
+//
+//            }
+//        });
 
 
     }

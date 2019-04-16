@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import java.io.Serializable;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -15,8 +16,8 @@ public class SplashScreen2 extends AppCompatActivity {
     private ApiInterface apiInterface;
     DataDarahLengkap dataDarahLengkap;
     private DataStok dataStok=new DataStok();
-
-
+    List<DataDarah> dataDarahList;
+    ApiInterfaceDua apiInterfaceDua;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,20 +33,20 @@ public class SplashScreen2 extends AppCompatActivity {
             String gol = dataDarahLengkap.getGolnya().toString().trim();
             String produk = dataDarahLengkap.getProduknya().toString().trim();
             String provinsi = dataDarahLengkap.getProvinsinya().toString().trim();
-            apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-            Call<DataStok> dataStokCall = apiInterface.getStokDarah(gol, produk, provinsi);
-            dataStokCall.enqueue(new Callback<DataStok>() {
+            apiInterfaceDua = ApiClientDua.getApiClient().create(ApiInterfaceDua.class);
+            Call<List<DataDarah>> dataStokCall = apiInterfaceDua.getStokDarah(gol, produk, provinsi);
+            dataStokCall.enqueue(new Callback<List<DataDarah>>() {
                 @Override
-                public void onResponse(Call<DataStok> call, Response<DataStok> response) {
-                    dataStok = response.body();
+                public void onResponse(Call<List<DataDarah>> call, Response<List<DataDarah>> response) {
+                    dataDarahList = response.body();
                     Intent intent = new Intent(SplashScreen2.this, StokActivity.class);
-                    intent.putExtra("datanya", (Serializable) dataStok);
+                    intent.putExtra("datanya", (Serializable) dataDarahList);
                     startActivity(intent);
                     finish();
                 }
 
                 @Override
-                public void onFailure(Call<DataStok> call, Throwable t) {
+                public void onFailure(Call<List<DataDarah>> call, Throwable t) {
 
                 }
             });
@@ -59,3 +60,4 @@ public class SplashScreen2 extends AppCompatActivity {
         }
     }
 }
+
